@@ -12,36 +12,55 @@
 </header>
 
 <!--
-  <<< Author notes: Step 2 >>>
-  Choose 3-5 steps for your course.
-  The first step is always the hardest, so pick something easy!
-  Link to docs.github.com for further explanations.
-  Encourage users to open new tabs for steps!
+  <<< Author notes: Step 3 >>>
+  Start this step by acknowledging the previous step.
+  Define terms and link to docs.github.com.
 -->
 
-## Paso 2: Proteger las ramas críticas
+## Paso 3 Añadir una nueva funcionalidad a la rama de *develop*
 
-_¡Buen trabajo creando la primera *release* ! :heart:_
+_¡Buen trabajo protegiendo las ramas `main` y `develop` ! :heart:_
 
-### Protección de ramas
+### Gestión de *releases*
 
-Aunque es muy cómodo en fases muy iniciales de los repositorios según un proyecto va ganando madurez y creciendo en complejidad la necesidad de tener mayor control sobre los cambios cada vez es mayor. Por esto es necesario proteger las ramas más críticas (`main` y `develop`) de recibir commits directos sin PR para reforzar el uso del flujo definido y evitar cambios directos.
+A medida que preparas una versión futura, tendrás que organizar algo más que tareas y funcionalidades: resulta clave definir un flujo claro para tu equipo y mantener el trabajo ordenado.
 
-### :keyboard: Actividad: proteger las ramas `main` y `develop`
+Existen distintas estrategias para gestionar versiones. Algunos equipos usan ramas de larga vida como `production`, `dev` y `main`. Otros publican directamente desde ramas de funcionalidad que se fusionan en `main`.
 
-En este paso protegerás ambas ramas `main` y `develop` contra cambios directos sin PR.
+Ninguna estrategia es universalmente mejor; lo importante es ser **intencional** con tus ramas y reducir las de vida larga siempre que sea posible.
 
-Existen 2 opciones para proteger ramas de GitHub: el modo clásico de protección de ramas o mediante *Rulesets*. En nuestro caso utilizaremos esta última:
+En este ejercicio usaremos dos ramas de vida larga: `main` y `develop`. Todo el trabajo diario irá a ramas ( `feature/*`, `fix/*`, `refactor/*`, `docs/*` o `update/*`) y de ahí pasarán vía PRs a `develop`, y posteriormente a `main`.
 
-1. Abre una pestaña nueva en tu navegador y realiza los pasos allí mientras lees las instrucciones aquí.
-1. Descarga este [JSON](.github/json/protect-critical-branches.json?raw=true)
-1. Ve a la página **Settings** de este repositorio.
-1. Haz clic en **Rules** y luego en **Rulesets**.
-1. Haz clic en **New ruleset**, luego en **Import a ruleset** y selecciona el fichero descargado anteriormente.
-1. Baja al final de la página y haz clic en **Create**
-1. Dado que acabos de proteger ambas ramas `develop` y `main` necesitaremos permitir que los _workflows_ abran y aprueben PRs para que el curso pueda actualizar a los siguientes pasos de manera automática. Ve a la página **Settings** de este repositorio, selecciona **Actions** y luego **General** y, en el apartado **Workflow permissions** marca la casilla **Allow GitHub Actions to create and approve pull requests** 
-1. Ve a la página **Actions** de este repositorio, escoge el workflow **Step 2, Main & develop branches protected** y haz clic en **Run worflow** y en el desplegable haz clic de nuevo en **Run worflow**
-1. Espera ~20 segundos y actualiza esta página. [GitHub Actions](https://docs.github.com/es/actions) avanzará automáticamente al siguiente paso.
+### Añadir una _feature_ o funcionalidad
+
+Una versión suele componerse de muchos cambios pequeños. Imaginemos que aún no conocemos el bug que introdujimos antes y vamos a centrarnos en un par de mejoras para nuestro juego antes de subir la versión.
+
+- Tú actualizarás el color de fondo de la página a negro.
+- Yo te ayudaré a cambiar el color del texto a verde.
+
+### :keyboard: Actividad: actualizar `base.css`
+
+1. Crea una nueva rama `update/background-color` a partir de `develop` y modifica la declaración `body` en `base.css` para que quede así. Esto pondrá el fondo en negro:
+
+    ```css
+    body {
+        background-color: black;
+    }
+    ```
+1. Abre un pull request con `develop` como rama base y tu nueva rama como compare.
+1. Rellena la plantilla de la PR describiendo tus cambios.
+1. Haz clic en **Create pull request**.
+
+## Fusionar la nueva funcionalidad en la rama develop
+
+El flujo git definido es clave para trabajar de manera eficiente y ordenada en un ambiente colaborativo. Es recomendable usar ramas de vida corta para añadir funcionalidades rápidas o corregir bugs.
+
+Fusiona este _pull request_ cuanto antes para poder abrir el PR a `main` lo antes posible.
+
+### :keyboard: Actividad: fusionar el pull request
+
+1. Haz clic en **Merge pull request**, y elimina tu rama.
+1. Espera unos 20 segundos y actualiza esta página (la de las instrucciones). [GitHub Actions](https://docs.github.com/en/actions) avanzará automáticamente al siguiente paso.
 
 <footer>
 
