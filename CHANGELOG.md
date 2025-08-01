@@ -1,3 +1,8 @@
+## v0.1.1-dev - 2025-08-01
+
+- chore:  set black background
+
+v0.1.1-dev: [compare: v0.1.0-dev - v0.1.1-dev](../../compare/v0.1.0-dev...v0.1.1-dev)
 ## v0.1.0 - 2025-08-01
 
 - chore: changed game text colors to green
