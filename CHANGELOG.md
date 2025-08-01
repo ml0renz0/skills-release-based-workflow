@@ -1,3 +1,8 @@
+## v0.1.2 - 2025-08-01
+
+- fix: set game background back to black
+
+v0.1.2: [compare: v0.1.1 - v0.1.2](../../compare/v0.1.1...v0.1.2)
 ## v0.1.1 - 2025-08-01
 
 - chore:  set black background
