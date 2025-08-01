@@ -12,76 +12,57 @@
 </header>
 
 <!--
-  <<< Author notes: Step 1 >>>
-  Choose 3-5 steps for your course.
-  The first step is always the hardest, so pick something easy!
-  Link to docs.github.com for further explanations.
-  Encourage users to open new tabs for steps!
+  <<< Author notes: Step 3 >>>
+  Start this step by acknowledging the previous step.
+  Define terms and link to docs.github.com.
 -->
 
-## Paso 2: Crear una *release*
+## Paso 3: Añadir un nuevo cambio a la rama de *develop* (y nueva pre-release)
 
-_¡Buen trabajo protegiendo las ramas `master` y `develop` ! :heart:_
+_¡Buen trabajo creando la primera *release*!_ :heart: 
 
-### Versiones
+### Gestión de *releases* y *pre-releases*
 
-Las versiones son iteraciones distintas de un software, sistemas operativos, apps o dependencias, por ejemplo, «Windows 8.1» → «Windows 10», o «macOS High Sierra» → «macOS Mojave».
+A medida que preparas una versión futura, tendrás que organizar algo más que tareas y funcionalidades: resulta clave definir un flujo claro para tu equipo y mantener el trabajo ordenado.
 
-El equipo actualiza el código y ejecuta pruebas para detectar fallos. Durante ese proceso se añaden medidas de seguridad para evitar que nuevo código o *bugs* lleguen a producción. Una vez superadas las pruebas, el código se versiona y se publica para los usuarios finales.
+Existen distintas estrategias para gestionar versiones. Algunos equipos usan ramas de larga vida como `production`, `dev` y `master`. Otros publican directamente desde ramas de funcionalidad que se fusionan en `master`.
 
-En nuestro caso tenemos un flujo automatizado que libera pre-releases desde la rama `develop` cada vez que se añaden commits en esa rama. Como ya vimos en el paso anterior para las releases es necesario abrir PRs con un titulo determinado desde `develop` a `master`.
+Ninguna estrategia es universalmente mejor; lo importante es ser **intencional** con tus ramas y reducir las de vida larga siempre que sea posible.
 
-Este repositorio sigue el esquema de versionado semántico o _SemVer_. Es un esquema para asignar números de versión a software, indicando claramente el tipo de cambios que se han realizado entre versiones. Se basa en la estructura `<MAJOR>.<MINOR>.<PATCH>`, donde cada número indica un tipo específico de cambio: mayor, menor o parche, respectivamente.
+En este ejercicio usaremos dos ramas de vida larga: `master` y `develop`. Todo el trabajo diario irá a ramas ( `feature/*`, `fix/*`, `refactor/*`, `docs/*` o `update/*`) y de ahí pasarán vía PRs a `develop`, y posteriormente a `master`. Cada _merge_ en la rama `develop` dispara la generación de una _pre-release_ y en la rama `master` la generación de una _release_
 
-Dado que tenemos un conjunto posible de ramas que aportan a `develop` podemos determinar de manera automática qué tipo de ramas provocan qué cambios según la siguiente regla:<div align="center">
-  <table>
-    <thead>
-      <tr><th>Nombre de la rama</th><th>Tipo de cambio</th></tr>
-    </thead>
-    <tbody>
-      <tr><td><code>fix/*</code>, <code>hotfix/*</code>, <code>docs/*</code>, <code>update/*</code></td><td>patch</td></tr>
-      <tr><td><code>feature/*</code>, <code>refactor/*</code></td><td>minor</td></tr>
-      <tr><td><code>release/*</code></td><td>major</td></tr>
-    </tbody>
-  </table>
-</div>
+### Añadir un cambio al código
 
-### Crear una *release* del estado actual del código
+Una versión suele componerse de muchos cambios pequeños. Imaginemos que aún no conocemos el bug que introdujimos antes y vamos a centrarnos en una mejora para nuestro juego antes de subir la versión: actualizarás el color de fondo de la página a negro.
 
-En este paso crearás una *release* de nuestro juego _Alien Invasion_ que contiene este repositorio en GitHub. Para probarlo necesitarás clonarte el repositorio en tu copia local y abrir en el navegador el fichero `index.html` que trae el proyecto en su rama `master` o `develop`.
+### :keyboard: Actividad: actualizar `base.css`
 
-<p align="center">
-  <img src="../../blob/curso/images/alien-invasion.png" alt="Alien Invasion">
-</p>
+1. Crea una nueva **[rama](../../branches)** `update/background-color` a partir de `develop` y modifica la declaración `body` en `base.css` para que quede así. Esto pondrá el fondo en negro:
 
-#### :keyboard: Actividad: cambiar color de texto del juego a verde (e introducir un bug que corregiremos después)
-
-Para preparar pasos posteriores, vamos a añadir un bug que corregiremos más adelante. Ya existe la rama `feature/update-text-colors`; crearemos y fusionaremos su pull request.
-
-1. [Abre una **nueva pull request**](../../compare/develop...feature/update-text-colors) con `base: develop` y `compare: feature/update-text-colors`.
-1. Ponle de título «Actualizado estilo del texto del juego». Por ejemplo:  
-   ```
-   ## Descripción:
-   - Actualizado el color del texto del juego a verde
-   ```
+    ```css
+    body {
+        background-color: black;
+    }
+    ```
+   Recuerda respetar la norma en cuanto a prefijos de commits que vimos en el paso 1.
+1. [Abre una **nueva pull request**](../../compare/develop...update/background-color) con `develop` como rama base y tu nueva rama `update/background-color` como compare.
+1. Añade tus cambios en la descripción de la PR.
 1. Haz clic en **Create pull request**.
 1. Haz clic en **Merge pull request**, y elimina tu rama.
-1. Al fusionar la PR a `develop` el flujo:
-   - Creará una nueva PR para subir la versión a `v0.1.0-dev` que se mergeará automáticamente. Dado que no existen releases aún partimos de una versión inicial `v0.0.0` y, como la rama es `feature/*`, corresponde una subida de _minor version_: `v0.0.0` → `v0.1.0`
-   - Liberará una **[pre-release](../../releases)** desde la rama `develop` (`v0.1.0‑dev`) también de manera automática.  
-1. Espera unos ~20 segundos a que terminen todos los flujos en la sección **[Actions](../../actions)** del repositorio.
+1. El flujo liberará la nueva pre-release `v0.1.1-dev`, ya que es una rama `update/*` y eso implica una subida de _patch version_.
+1. Espera ~20 segundos a que terminen todos los flujos en la sección **[Actions](../../actions)** del repositorio.
 
-#### :keyboard: Actividad: crear una PR a `master` para sacar una release final v0.1.0
+#### :keyboard: Actividad: crear una PR a `master` para sacar una release final v0.1.1
 
 1. [Abre una **nueva pull request**](../../compare/master...develop) con `base: master` y `compare: develop`.
-. Ponle de título «[RELEASE] 0.1.0 - color de texto a verde». Por ejemplo:  
+. Ponle de título «[RELEASE] 0.1.1 - color de fondo a negro». Por ejemplo:  
    ```
    ## Descripción:
-   - Actualizado el color del texto del juego a verde
+   - Actualizado el color de fondo a negro
    ```
 1. Haz clic en **Create pull request**.
 1. Fusiona la PR haciendo clic en **Merge pull request** y elimina la rama.
-1. Al fusionar la PR de release a `master` el flujo liberará automáticamente una **[release](../../releases)** desde la rama `master` (`v0.1.0`).  
+1. El flujo liberará la nueva release `v0.1.1`. 
 1. Espera ~20 segundos a que terminen todos los flujos en la sección **[Actions](../../actions)** del repositorio y actualiza esta página. [GitHub Actions](https://docs.github.com/es/actions) avanzará automáticamente al siguiente paso.
 
 <footer>
