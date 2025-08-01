@@ -1,3 +1,8 @@
+## v0.1.1 - 2025-08-01
+
+- chore:  set black background
+
+v0.1.1: [compare: v0.1.0 - v0.1.1](../../compare/v0.1.0...v0.1.1)
 ## v0.1.1-dev - 2025-08-01
 
 - chore:  set black background
