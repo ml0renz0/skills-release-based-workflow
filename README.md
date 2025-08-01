@@ -12,79 +12,77 @@
 </header>
 
 <!--
-  <<< Author notes: Step 2 >>>
+  <<< Author notes: Step 1 >>>
   Choose 3-5 steps for your course.
   The first step is always the hardest, so pick something easy!
   Link to docs.github.com for further explanations.
   Encourage users to open new tabs for steps!
 -->
 
-## Paso 1: Proteger las ramas críticas
+## Paso 2: Crear una *release*
 
-_Bienvenida a Flujo de trabajo basado en **GitFlow** con rama `develop` de integración adicional :sparkle:_
+_¡Buen trabajo protegiendo las ramas `master` y `develop` ! :heart:_
 
-### GitHub flow
+### Versiones
 
-El [GitHub flow](https://guides.github.com/introduction/flow/) es un flujo ligero basado en ramas, pensado para proyectos con despliegues frecuentes. En nuestro caso nos apoyaremos en el uso de una rama `develop` donde se integrarán todos los cambios antes de pasar a la rama `master`
+Las versiones son iteraciones distintas de un software, sistemas operativos, apps o dependencias, por ejemplo, «Windows 8.1» → «Windows 10», o «macOS High Sierra» → «macOS Mojave».
+
+El equipo actualiza el código y ejecuta pruebas para detectar fallos. Durante ese proceso se añaden medidas de seguridad para evitar que nuevo código o *bugs* lleguen a producción. Una vez superadas las pruebas, el código se versiona y se publica para los usuarios finales.
+
+En nuestro caso tenemos un flujo automatizado que libera pre-releases desde la rama `develop` cada vez que se añaden commits en esa rama. Como ya vimos en el paso anterior para las releases es necesario abrir PRs con un titulo determinado desde `develop` a `master`.
+
+Este repositorio sigue el esquema de versionado semántico o _SemVer_. Es un esquema para asignar números de versión a software, indicando claramente el tipo de cambios que se han realizado entre versiones. Se basa en la estructura `<MAJOR>.<MINOR>.<PATCH>`, donde cada número indica un tipo específico de cambio: mayor, menor o parche, respectivamente.
+
+Dado que tenemos un conjunto posible de ramas que aportan a `develop` podemos determinar de manera automática qué tipo de ramas provocan qué cambios según la siguiente regla:<div align="center">
+  <table>
+    <thead>
+      <tr><th>Nombre de la rama</th><th>Tipo de cambio</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>fix/*</code>, <code>hotfix/*</code>, <code>docs/*</code>, <code>update/*</code></td><td>patch</td></tr>
+      <tr><td><code>feature/*</code>, <code>refactor/*</code></td><td>minor</td></tr>
+      <tr><td><code>release/*</code></td><td>major</td></tr>
+    </tbody>
+  </table>
+</div>
+
+### Crear una *release* del estado actual del código
+
+En este paso crearás una *release* de nuestro juego _Alien Invasion_ que contiene este repositorio en GitHub. Para probarlo necesitarás clonarte el repositorio en tu copia local y abrir en el navegador el fichero `index.html` que trae el proyecto en su rama `master` o `develop`.
 
 <p align="center">
-  <img src="../../blob/curso/images/gitflow.png" alt="github-flow">
+  <img src="../../blob/curso/images/alien-invasion.png" alt="Alien Invasion">
 </p>
 
-Algunos proyectos, como este, despliegan aún más a menudo, con *continuous deployment*: podría haber una “versión” cada vez que hay un nuevo *commit* en `master`.
+#### :keyboard: Actividad: cambiar color de texto del juego a verde (e introducir un bug que corregiremos después)
 
-Otros proyectos necesitan una estructura de versiones y *releases* distinta.
+Para preparar pasos posteriores, vamos a añadir un bug que corregiremos más adelante. Ya existe la rama `feature/update-text-colors`; crearemos y fusionaremos su pull request.
 
-#### :keyboard: Actividad: dar permisos a GitHub Actions para abrir y fusionar PRs
+1. [Abre una **nueva pull request**](../../compare/develop...feature/update-text-colors) con `base: develop` y `compare: feature/update-text-colors`.
+1. Ponle de título «Actualizado estilo del texto del juego». Por ejemplo:  
+   ```
+   ## Descripción:
+   - Actualizado el color del texto del juego a verde
+   ```
+1. Haz clic en **Create pull request**.
+1. Haz clic en **Merge pull request**, y elimina tu rama.
+1. Al fusionar la PR a `develop` el flujo:
+   - Creará una nueva PR para subir la versión a `v0.1.0-dev` que se mergeará automáticamente. Dado que no existen releases aún partimos de una versión inicial `v0.0.0` y, como la rama es `feature/*`, corresponde una subida de _minor version_: `v0.0.0` → `v0.1.0`
+   - Liberará una **[pre-release](../../releases)** desde la rama `develop` (`v0.1.0‑dev`) también de manera automática.  
+1. Espera unos ~20 segundos a que terminen todos los flujos en la sección **[Actions](../../actions)** del repositorio.
 
-1. Abre una nueva pestaña.
-1. Ve a [**Settings ▸ Actions ▸ General**](../../settings/actions#actions_workflow_permission_can_approve_pr)
-1. En **Workflow permissions**:
-   - Marca **Allow GitHub Actions to create and approve pull requests**.
-1. Guarda los cambios.
+#### :keyboard: Actividad: crear una PR a `master` para sacar una release final v0.1.0
 
-#### :keyboard: Actividad: habilitar auto-merge para las Pull Requests
-
-1. Abre una nueva pestaña.
-1. Ve a [**Settings ▸ General**](../../settings#merge-button-settings)
-1. En **Pull Requests**:
-   - Marca **Allow auto-merge**, los cambios se guardan automáticamente.
-
-### Protección de ramas
-
-Según el repositorio madura, es clave impedir cambios directos en las ramas críticas (`master` y `develop`) para forzar el flujo vía PR y evitar “pushes” accidentales.
-
-Además, protegeremos también **las etiquetas de versión (`v*`)** para que nadie pueda borrarlas o reescribirlas.
-
-Más concretamente los workflows de este repositorio comprueban que:
-- Los mensajes de commit tienen uno de los prefijos:
-  - `data`, `extract`, `transform`, `load`, `preprocesamiento`, `modelo`, `cicd`, `docs`, `fix`, `refactor`, `test`, `config`, `chore`
-- Las PRs a la rama `develop` sólo se hagan desde una de las siguientes ramas:
-  - `feature/\*`, `fix/\*`, `refactor/\*`, `docs/\*`, `update/\*` y `release/\*`
-- Las PRs a la rama `master` sólo se hagan desde una de las siguientes ramas:
-  - `develop`, `hotfix/\*` y `release/\*`
-- El título de las PRs a la rama `master` comiencen por `[RELEASE]` o `[HOTFIX]`
-
-#### :keyboard: Actividad: importar el _ruleset_ de ramas
-
-1. Descarga estos JSONs:  
-   - **[protect-master-branch.json](.github/json/protect-master-branch.json?raw=true)**: configura protección en la rama `master` contra pushes directos sin PR y también fuerza la comprobación de los checks realizados por los workflows y que son necesarios para la aprobación de la PR.
-   - **[protect-develop-branch.json](.github/json/protect-develop-branch.json?raw=true)**: configura la protección en la rama `develop` al igual que la master pero sin el chequeo de título de PR (único para máster)
-1. En [**Settings ▸ Rules ▸ Rulesets**](../../settings/rules), pulsa **New ruleset → Import a ruleset** y selecciona uno de los ficheros descargados. Repite el proceso para el segundo fichero.
-1. Pulsa **Create** al final.
-
-#### :keyboard: Actividad: importar el _ruleset_ de tags
-
-1. Descarga este JSON:  
-   **[protect-critical-tags.json](.github/json/protect-critical-tags.json?raw=true)**
-1. Repite el proceso: **New ruleset → Import a ruleset**, elige el JSON de tags.
-1. Pulsa **Create** al final.
-
-#### :white_check_mark: Validar la actividad
-
-1. Ve a la pestaña **[Actions](../../actions)**.
-2. Ejecuta manualmente el workflow [**Step 1, Master & develop branches protected**](../../actions/workflows/1-branches-protected.yml) (**Run workflow → Run workflow**).
-1. Espera ~20 segundos a que terminen todos los flujos en la sección **[Actions](../../actions)** del repositorio y actualiza esta página. [GitHub Actions](https://docs.github.com/es/actions) avanzará automáticamente al siguiente paso si todo está correcto.
+1. [Abre una **nueva pull request**](../../compare/master...develop) con `base: master` y `compare: develop`.
+. Ponle de título «[RELEASE] 0.1.0 - color de texto a verde». Por ejemplo:  
+   ```
+   ## Descripción:
+   - Actualizado el color del texto del juego a verde
+   ```
+1. Haz clic en **Create pull request**.
+1. Fusiona la PR haciendo clic en **Merge pull request** y elimina la rama.
+1. Al fusionar la PR de release a `master` el flujo liberará automáticamente una **[release](../../releases)** desde la rama `master` (`v0.1.0`).  
+1. Espera ~20 segundos a que terminen todos los flujos en la sección **[Actions](../../actions)** del repositorio y actualiza esta página. [GitHub Actions](https://docs.github.com/es/actions) avanzará automáticamente al siguiente paso.
 
 <footer>
 
