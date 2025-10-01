@@ -140,7 +140,7 @@ jobs:
         if: steps.gate.outputs.skip == 'true'
         run: echo "✅ Rama exenta. Nada que validar."
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         if: steps.gate.outputs.skip != 'true'
         with: { fetch-depth: 0 }
 
