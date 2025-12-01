@@ -60,7 +60,7 @@ jobs:
         run: echo "✅ No es una PR mergeada a develop. Nada que hacer."
 
     # ── Lógica clásica bump develop ────────────────────────────────────────────
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         if: steps.gate.outputs.skip != 'true'
         with: { fetch-depth: 0 }
 
@@ -231,7 +231,7 @@ jobs:
         run: echo "✅ No es una PR mergeada a master. Nada que hacer."
 
     # ── Lógica clásica bump master ─────────────────────────────────────────────
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         if: steps.gate.outputs.skip != 'true'
         with: { fetch-depth: 0 }
 
